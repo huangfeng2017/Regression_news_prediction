@@ -24,6 +24,8 @@ def plot_corr(df, size=40):
     ax.matshow(corr)
     plt.xticks(range(len(corr.columns)), corr.columns)
     plt.yticks(range(len(corr.columns)), corr.columns)
+    plt.tick_params('x', labelsize=10)
+    plt.tick_params('y', labelsize=30)
     plt.show()
 
 if __name__ == "__main__":
@@ -42,8 +44,7 @@ if __name__ == "__main__":
     # STEP 1: We implement the backward stepwise regression procedure to select features.
 
     # Selecting the features manually with a gut guess !!!
-    feature_df = news_df[[' n_tokens_title', ' n_tokens_content', ' num_imgs',
-                          ' num_videos', ' global_rate_positive_words', ' is_weekend',
+    feature_df = news_df[[' n_tokens_title', ' n_tokens_content', ' global_rate_positive_words', ' is_weekend',
                           ' num_hrefs', ' LDA_01', ' LDA_02', ' global_rate_negative_words']]
 
 

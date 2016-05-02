@@ -28,25 +28,25 @@ if __name__ == "__main__":
     news_df = pd.read_csv("data.csv")
 
     # Selecting the features manually with a gut guess !!!
-    # feature_df = news_df[[' n_tokens_title', ' n_tokens_content', ' num_imgs',
-    #                       ' num_videos', ' global_rate_positive_words', ' is_weekend',
+    # feature_df = news_df[[' n_tokens_title', ' n_tokens_content', ' global_rate_positive_words', ' is_weekend',
     #                       ' num_hrefs', ' LDA_01', ' LDA_02', ' global_rate_negative_words']]
 
-    # feature_df = news_df[[' n_tokens_title', ' num_imgs',
-    #                       ' num_videos', ' is_weekend', ' LDA_02']]
-    feature_df = news_df[[' n_tokens_title', ' num_imgs',
+    #feature_df = news_df[[' n_tokens_title', ' is_weekend', ' num_hrefs', ' LDA_01', ' LDA_02']]
+    feature_df = news_df[[' n_tokens_content', ' global_rate_negative_words',
                           ' LDA_01']]
 
+
     feature_df_centered = (feature_df - feature_df.mean())
-    feature_df_centered[' n_tokens_squared'] = feature_df_centered[' n_tokens_title']**2
-    feature_df_centered[' num_imgs_squared'] = feature_df_centered[' num_imgs']**2
+    feature_df_centered[' n_tokens_squared'] = feature_df_centered[' n_tokens_content']**2
+    feature_df_centered[' g_neg_squared'] = feature_df_centered[' global_rate_negative_words']**2
     feature_df_centered[' LDA_squared'] = feature_df_centered[' LDA_01']**2
 
-    feature_df_centered[' n_tokens_imgs'] = feature_df_centered[' n_tokens_title']*feature_df_centered[' num_imgs']
-    feature_df_centered[' num_imgs_LDA'] = feature_df_centered[' num_imgs']*feature_df_centered[' LDA_01']
-    feature_df_centered[' LDA_squared_tokens'] = feature_df_centered[' LDA_01']*feature_df_centered[' n_tokens_title']
-    feature_df_centered[' all'] = feature_df_centered[' n_tokens_title']\
-                                  *feature_df_centered[' num_imgs']*feature_df_centered[' LDA_01']
+    feature_df_centered[' n_tokens_g_neg'] = feature_df_centered[' n_tokens_content']*feature_df_centered[' global_rate_negative_words']
+    feature_df_centered[' g_neg_LDA'] = feature_df_centered[' global_rate_negative_words']*feature_df_centered[' LDA_01']
+    feature_df_centered[' LDA_squared_tokens'] = feature_df_centered[' LDA_01']*feature_df_centered[' n_tokens_content']
+    feature_df_centered[' all'] = feature_df_centered[' n_tokens_content']\
+                                  *feature_df_centered[' global_rate_negative_words']*feature_df_centered[' LDA_01']
+
 
     # Create the regression model - second type
     Y = news_df[' shares']/news_df[' timedelta']

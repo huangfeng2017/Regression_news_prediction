@@ -29,7 +29,7 @@ if __name__ == "__main__":
     # STEP 1: We implement the backward stepwise regression procedure to select features.
 
     # Selecting the features manually with a gut guess !!!
-    feature_df = news_df[[' n_tokens_content', ' num_imgs',
+    feature_df = news_df[[' n_tokens_content', ' global_rate_negative_words',
                           ' num_hrefs']]
 
 
@@ -72,7 +72,8 @@ if __name__ == "__main__":
         feat_without_sse = sum.ess
         ssr_feat_given_model = feat_without_sse - model_sse
         print('SSr(',feat,'|x1,...,xn): ', ssr_feat_given_model)
-        r_1_23 = ssr_feat_given_model/model_sse
+        r_1_23 = ssr_feat_given_model/feat_without_sse
+        print(sum.ssr+sum.ess)
         print("Coeff. of partial determination(X1|X2,X3): ", r_1_23)
 
         model = sm.OLS(Y,X_feat)
@@ -81,6 +82,7 @@ if __name__ == "__main__":
         params = results.params
         sum = statsmodels.regression.linear_model.RegressionResults(model, params, normalized_cov)
         r_1 = sum.ssr / (sum.ssr + sum.ess)
+        print(sum.ssr + sum.ess)
         print("Coeff. of partial determination(X1): ", r_1)
         print("\n")
         X = feature_df
